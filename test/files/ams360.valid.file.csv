@@ -1,0 +1,6 @@
+AgencyName,ExportDate,Report
+"ARMAC Insurance Agency, Inc",5/9/2018,Customer List Report
+
+Account Number,Status,Type,Target List Exclusion,Multi-Entity,Customer ? Firm Name,Customer ? DBA Name,"Customer ? Last name, First name",Address 1,Address 2,City,State,Zip,Business Phone,Residence Phone,Fax Phone,Cell Phone,Pager Phone,E-Mail,Web Address,Division,Branch,Department,Group,Customer Executive,Customer CSR,Customer Broker,Additional Personnel Type 0,Additional Personnel Name 0,Additional Personnel Type 1,Additional Personnel Name 1,Additional Personnel Type 2,Additional Personnel Name 2,Customer Notation,Contacts,Dependents
+33022,Active,Customer,,,"17AC Victorville, LLC ",,,410 Patti Ann Woods,,Henderson,NV,89002,"(760)8439245, extJessica",,,,,,,ARMAC Insurance Agency,ARMAC Insurance Agency,Commercial Lines,Group one,"House, Account","Cerda, Kelly",,,,,,,,,Jessica Haughton,
+34147,Active,Customer,,,24 Hours Pure Water ,24 Hours Pure Water,,1431 W Redondo Beach Blvd,,Gardena,CA,90247,(310)5321962,(323)4960847,,,,"jjtsaur@yahoo.com",,ARMAC Insurance Agency,ARMAC Insurance Agency,Commercial Lines,Group one,"House, Account","zzJacksonzz, Amanda",,,,,,,,,Jerry Tsaur,

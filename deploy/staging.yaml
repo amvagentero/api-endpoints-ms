@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-endpoints-ms-ag
+  namespace: {{environment}}-ms
+  labels:
+    app: api-endpoints-ms-ag
+spec:
+  ports:
+    - port: 3000
+      name: repo-port
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: api-endpoints-ms-ag
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-endpoints-ms-ag
+  namespace: {{environment}}-ms
+spec:
+  maxReplicas: 1
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: api-endpoints-ms-ag
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-endpoints-ms-ag
+  namespace: {{environment}}-ms
+  labels:
+    app: api-endpoints-ms-ag
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: api-endpoints-ms-ag
+    spec:
+      imagePullSecrets:
+        - name: {{environment}}-docker-ecr
+      containers:
+        - name: api-endpoints-ms-ag
+          image: {{imagename}}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              #          resources:
+              #            limits:
+              #              cpu: 100m
+              #              memory: 200Mi
+              #            requests:
+              #              cpu: 50m
+              #              memory: 130Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 3
+            timeoutSeconds: 35
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 1
+            timeoutSeconds: 2
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: LOG_LEVEL
+              value: info
+            - name: SERVER_PORT
+              value: "3000"
+            - name: AWS_S3_REGION
+              value: us-west-2
+            - name: AWS_S3_BUCKET_NAME
+              value: test-bucket-csv
+            - name: AWS_S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: staging-aws-credentials
+                  key: s3key
+            - name: AWS_S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: staging-aws-credentials
+                  key: s3secret
